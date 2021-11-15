@@ -30,7 +30,7 @@ $title         = get_field('title');
 $images        = get_field('images');
 $cellalign     = get_field('cellalign');
 $wraparound    = get_field('mode');
-$image_width   = get_field('image_width') ?: '25%';
+$image_width   = get_field('image_width') ?: 'auto';
 $gap           = get_field('gap') ?: '10px';
 $show_buttons  = get_field('show_buttons');
 $show_dots     = get_field('show_dots');
@@ -54,16 +54,8 @@ $size = 'flickity_image'; // (thumbnail, medium, large, full or custom size)
     }'>
       <?php
       foreach ($images as $image) {
-        /* printf(
-          '<img src="%s" alt="%s" width="%s" height="%s" style="margin-right: %s;">',
-          esc_attr(wp_get_attachment_image_url($image['ID'], $size)),
-          esc_attr($image['alt']),
-          esc_attr($image_width),
-          $image['sizes'][$size . '-height'],
-          esc_attr($gap),
-        ); */
       ?>
-        <img class="flickity-image" src="<?= wp_get_attachment_image_url($image['ID'], $size) ?>">
+        <img class="flickity-image" src="<?= wp_get_attachment_image_url($image['ID'], $size) ?>" alt="<?= esc_attr($image['alt']) ?>" width="<?= esc_attr($image_width) ?>" gap="<?= esc_attr($gap) ?>">
       <?php
       }
       ?>

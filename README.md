@@ -1,6 +1,8 @@
-# Block - Flickity #
+# Atlesque Image Slider
 
 A WordPress plugin that adds a block named `Flickity` displaying images set in ACF Pro's Gallery field as a slider/carousel with options.
+
+Based on [@srikat's Block Flickity slider](https://github.com/srikat/block-flickity).
 
 ## Blog Post ##
 

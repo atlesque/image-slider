@@ -12,15 +12,10 @@
 	 * @return  void
 	 */
 	var initializeBlock = function ($block) {
-		$images_container = $block.find('.images-container');
-
-		$images_container.flickity({
-			imagesLoaded: true, // re-positions cells once their images have loaded
-			groupCells: true, // group cells that fit in carousel viewport
-			cellAlign: $images_container.data( 'cellalign' ),
-			freeScroll: true, // enables content to be freely scrolled and flicked without aligning cells to an end position
-			wrapAround: $images_container.data( 'wraparound' ),
-		});
+		$images_container = $block.find('.flickity-container');
+		const dataString = $images_container.attr("data-flickity");
+		const flickitySettings = dataString != null ? JSON.parse(dataString) : {};
+		$images_container.flickity(flickitySettings);
 	};
 
 	// Initialize each block on page load (front end).

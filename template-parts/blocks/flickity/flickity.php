@@ -12,50 +12,65 @@
 // Create id attribute allowing for custom "anchor" value.
 $id = 'flickity-' . $block['id'];
 
-if ( ! empty( $block['anchor'] ) ) {
-	$id = $block['anchor'];
+if (!empty($block['anchor'])) {
+  $id = $block['anchor'];
 }
 
 // Create class attribute allowing for custom "className" and "align" values.
 $className = 'flickity';
 
-if ( ! empty( $block['className'] ) ) {
-	$className .= ' ' . $block['className'];
+if (!empty($block['className'])) {
+  $className .= ' ' . $block['className'];
 }
-if ( ! empty( $block['align'] ) ) {
-	$className .= ' align' . $block['align'];
+if (!empty($block['align'])) {
+  $className .= ' align' . $block['align'];
 }
 
-$images      = get_field( 'images' );
-$cellalign   = get_field( 'cellalign' );
-$wraparound  = get_field( 'mode' );
-$image_width = get_field( 'image_width' ) ?: '25%';
-$gap         = get_field( 'gap' ) ?: '10px';
+$title         = get_field('title');
+$images        = get_field('images');
+$cellalign     = get_field('cellalign');
+$wraparound    = get_field('mode');
+$image_width   = get_field('image_width') ?: '25%';
+$gap           = get_field('gap') ?: '10px';
+$show_buttons  = get_field('show_buttons');
+$show_dots     = get_field('show_dots');
 
 $size = 'flickity_image'; // (thumbnail, medium, large, full or custom size)
 
 ?>
-<section id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( $className ); ?>">
-<?php
-if ( $images ) {
-	printf(
-		'<div class="images-container" data-cellalign="%s" data-wraparound="%s">',
-		esc_attr( $cellalign ),
-		esc_attr( $wraparound )
-	);
-	foreach ( $images as $image ) {
-		printf(
-			'<img src="%s" alt="%s" width="%s" height="%s" style="margin-right: %s;">',
-			esc_attr( wp_get_attachment_image_url( $image['ID'], $size ) ),
-			esc_attr( $image['alt'] ),
-			esc_attr( $image_width ),
-			$image['sizes'][ $size . '-height' ],
-			esc_attr( $gap ),
-		);
-	}
-	echo '</div>';
-} else {
-	echo 'No images found. Add/select some by clicking on the "Add to gallery" button.';
-}
-?>
+<section id="<?php echo esc_attr($id); ?>" class="flickity-outer-wrapper <?php echo esc_attr($className); ?>">
+  <?php
+  if ($images) {
+  ?>
+    <span class="flickity-title"><?= esc_attr($title) ?></span>
+    <div class="flickity-container" data-flickity='{
+      "imagesLoaded": true,
+			"groupCells": true,
+      "freeScroll": true,
+      "cellAlign": "<?= esc_attr($cellalign) ?>",
+      "wrapAround": <?= esc_attr($wraparound) ?>,
+      "prevNextButtons": <?= esc_attr($show_buttons) ?>,
+      "pageDots": <?= esc_attr($show_dots) ?>
+    }'>
+      <?php
+      foreach ($images as $image) {
+        /* printf(
+          '<img src="%s" alt="%s" width="%s" height="%s" style="margin-right: %s;">',
+          esc_attr(wp_get_attachment_image_url($image['ID'], $size)),
+          esc_attr($image['alt']),
+          esc_attr($image_width),
+          $image['sizes'][$size . '-height'],
+          esc_attr($gap),
+        ); */
+      ?>
+        <img class="flickity-image" src="<?= wp_get_attachment_image_url($image['ID'], $size) ?>">
+      <?php
+      }
+      ?>
+    </div>
+  <?php
+  } else {
+    echo 'No images found. Add/select some by clicking on the "Add to gallery" button.';
+  }
+  ?>
 </section>
